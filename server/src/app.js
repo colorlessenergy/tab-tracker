@@ -2,6 +2,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
+// models folder has index.js file return object with sequelize attribute
+const {sequelize} = require('./models')
+const config = require('./config/config')
 const app = express()
 // logs data about the request made 'headers'
 app.use(morgan('combined'))
@@ -10,11 +13,11 @@ app.use(bodyParser.json())
 // want a server to be hosted on a different domain. any client hit server. allows any host or client to access this
 app.use(cors())
 
-// handle endpoint of status 'hit'
-app.post('/register', (req, res) => {
-  res.send({
-    message: `Hello ${req.body.email}! your user was registered! have fun!`
-  })
-})
+// gets the route of /registar from routes.js file
+require('./routes')(app)
 
-app.listen(process.env.PORT || 8081)
+sequelize.sync()
+  .then(() => {
+    app.listen(config.port)
+    console.log(`Server started on port ${config.port}`)
+  })
