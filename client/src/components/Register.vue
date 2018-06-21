@@ -1,28 +1,22 @@
 <template>
   <v-layout column>
     <v-flex xs6 offset-xs3>
-      <div class="white elevation-2"> 
-        <v-toolbar flat dense class="cyan" dark>
-          <v-toolbar-title>Register </v-toolbar-title>
-        </v-toolbar>
-
-        <div class="pl-4 pr-4 pt-2 pb-2">
-          <form 
-            name="tab-tracker-form"
-            autocomplete="off">
-            <v-text-field type="email" label="Email" name="email" v-model="email"/>
-            <br>
-            <v-text-field type="password" name="password" label="password" autocomplete="new-password" v-model="password" />
-            <br>
-            <div class="error" v-html="error" />
-            <br>
-            <v-btn
-              class="cyan"
-              @click="register" dark>Register
-            </v-btn>
-          </form>
-        </div>
-      </div>
+      <panel title="Register">
+        <form 
+          name="tab-tracker-form"
+          autocomplete="off">
+          <v-text-field type="email" label="Email" name="email" v-model="email"/>
+          <br>
+          <v-text-field type="password" name="password" label="password" autocomplete="new-password" v-model="password" />
+          <br>
+          <div class="danger-alert" v-html="error" />
+          <br>
+          <v-btn
+            class="cyan"
+            @click="register" dark>Register
+          </v-btn>
+        </form>
+      </panel>
     </v-flex>
   </v-layout>
 </template>
@@ -46,19 +40,18 @@ export default {
         })
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        this.$router.push({
+          name: 'songs'
+        })
       } catch (error) {
         this.error = error.response.data.error
       }
     }
   }
-
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .error {
-    color: red;
-  }
 
 </style>

@@ -13,10 +13,10 @@ app.use(bodyParser.json())
 // want a server to be hosted on a different domain. any client hit server. allows any host or client to access this
 app.use(cors())
 
-// gets the route of /registar from routes.js file
+// gets the route of from routes.js file
 require('./routes')(app)
 
-sequelize.sync()
+sequelize.sync({force: false})
   .then(() => {
     app.listen(config.port)
     console.log(`Server started on port ${config.port}`)
